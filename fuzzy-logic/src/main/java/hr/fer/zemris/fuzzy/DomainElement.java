@@ -1,9 +1,12 @@
 package hr.fer.zemris.fuzzy;
 
-public class DomainElement {
-    int[] values;
+import java.util.Arrays;
 
-    DomainElement(int[] values){
+public class DomainElement {
+    private final int[] values;
+
+    DomainElement(int... values){
+        if(values.length <= 0) throw new IllegalArgumentException();
         this.values = values;
     }
 
@@ -15,27 +18,27 @@ public class DomainElement {
         return values[index];
     }
 
-    public int hashCode(){
-        return values.hashCode();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DomainElement that = (DomainElement) o;
+        return Arrays.equals(values, that.values);
     }
 
-    public boolean equals(Object object){
-        if(!object instanceof DomainElement) return false;
-        DomainElement domainElement = (DomainElement) object;
-
-        if(this.values.length != domainElement.values.length) return false;
-
-        for(int i = 0; i < this.values.length; i++){
-            if(this.values[i] != domainElement.values[i]) return false;
-        }
-        return true;
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(values);
     }
 
-    public String toString(){ //TODO
-
+    //TODO napravi zagrade
+    @Override
+    public String toString() {
+        if(getNumberOfComponents() == 1) return Integer.toString(this.values[0]);
+        return '(' + Arrays.toString(this.values) + ')';
     }
 
-    public static DomainElement of(int[] values){
+    public static DomainElement of(int... values){
         return new DomainElement(values);
     }
 }
