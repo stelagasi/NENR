@@ -8,10 +8,10 @@ public class CompositeDomain extends Domain {
     private final SimpleDomain[] simpleDomains;
 
     public CompositeDomain(SimpleDomain... simpleDomains) {
+        if(simpleDomains.length < 2) throw new IllegalArgumentException();
         this.simpleDomains = simpleDomains;
     }
 
-    //todo može biti nula simpleDomains.length
     @Override
     public Iterator<DomainElement> iterator() {
         return new Iterator<>() {
@@ -27,9 +27,10 @@ public class CompositeDomain extends Domain {
             public DomainElement next() {
                 ArrayList<Integer> values = new ArrayList<>();
                 int position = current;
-                for (int i = getNumberOfComponents() - 1; i <= 0; i--) {
+                int index;
+                for (int i = getNumberOfComponents() - 1; i >= 0; i--) {
                     SimpleDomain simpleDomain = (SimpleDomain) getComponent(i);
-                    int index = position % simpleDomain.getCardinality();
+                    index = position % simpleDomain.getCardinality();
                     position /= simpleDomain.getCardinality();
                     values.add(simpleDomain.getFirst() + index);
                 }
@@ -74,8 +75,6 @@ public class CompositeDomain extends Domain {
 
     @Override
     public int getCardinality() {
-        if (simpleDomains.length == 0) return 0;
-
         int cardinality = 1;
         for (SimpleDomain simpleDomain : simpleDomains) {
             cardinality *= simpleDomain.getCardinality();
