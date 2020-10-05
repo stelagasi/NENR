@@ -31,11 +31,10 @@ public class DomainElement {
         return Arrays.hashCode(values);
     }
 
-    //TODO napravi zagrade
     @Override
     public String toString() {
         if(getNumberOfComponents() == 1) return Integer.toString(this.values[0]);
-        return '(' + Arrays.toString(this.values) + ')';
+        return Arrays.toString(this.values).replace('[', '(').replace(']', ')');
     }
 
     public static DomainElement of(int... values){
