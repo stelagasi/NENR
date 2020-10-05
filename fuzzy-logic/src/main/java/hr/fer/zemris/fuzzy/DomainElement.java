@@ -5,16 +5,16 @@ import java.util.Arrays;
 public class DomainElement {
     private final int[] values;
 
-    DomainElement(int... values){
-        if(values.length <= 0) throw new IllegalArgumentException();
+    DomainElement(int... values) {
+        if (values.length <= 0) throw new IllegalArgumentException();
         this.values = values;
     }
 
-    public int getNumberOfComponents(){
+    public int getNumberOfComponents() {
         return values.length;
     }
 
-    public int getComponentValue(int index){
+    public int getComponentValue(int index) {
         return values[index];
     }
 
@@ -33,11 +33,11 @@ public class DomainElement {
 
     @Override
     public String toString() {
-        if(getNumberOfComponents() == 1) return Integer.toString(this.values[0]);
+        if (getNumberOfComponents() == 1) return Integer.toString(this.values[0]);
         return Arrays.toString(this.values).replace('[', '(').replace(']', ')');
     }
 
-    public static DomainElement of(int... values){
+    public static DomainElement of(int... values) {
         return new DomainElement(values);
     }
 }

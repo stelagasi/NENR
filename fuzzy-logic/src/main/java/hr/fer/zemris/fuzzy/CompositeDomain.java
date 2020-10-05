@@ -8,7 +8,7 @@ public class CompositeDomain extends Domain {
     private final SimpleDomain[] simpleDomains;
 
     public CompositeDomain(SimpleDomain... simpleDomains) {
-        if(simpleDomains.length < 2) throw new IllegalArgumentException();
+        if (simpleDomains.length < 2) throw new IllegalArgumentException();
         this.simpleDomains = simpleDomains;
     }
 

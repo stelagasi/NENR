@@ -30,8 +30,8 @@ public abstract class Domain implements IDomain {
             Iterator<DomainElement> iterator = compositeDomain.iterator();
 
             int index = 0;
-            while(iterator.hasNext()){
-                if(element.equals(iterator.next())){
+            while (iterator.hasNext()) {
+                if (element.equals(iterator.next())) {
                     return index;
                 }
                 index++;
@@ -41,8 +41,8 @@ public abstract class Domain implements IDomain {
     }
 
     public DomainElement elementForIndex(int index) {
-        if(index < 0 || getCardinality() <= index) throw new IllegalArgumentException();
-        if(this instanceof SimpleDomain){
+        if (index < 0 || getCardinality() <= index) throw new IllegalArgumentException();
+        if (this instanceof SimpleDomain) {
             SimpleDomain simpleDomain = (SimpleDomain) this;
             return new DomainElement(simpleDomain.getFirst() + index);
         } else {
@@ -50,8 +50,8 @@ public abstract class Domain implements IDomain {
             Iterator<DomainElement> iterator = compositeDomain.iterator();
 
             int position = 0;
-            while(iterator.hasNext()){
-                if(position == index){
+            while (iterator.hasNext()) {
+                if (position == index) {
                     return iterator.next();
                 }
                 iterator.next();
