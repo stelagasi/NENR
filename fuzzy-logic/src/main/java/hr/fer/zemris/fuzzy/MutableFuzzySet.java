@@ -36,8 +36,9 @@ public class MutableFuzzySet implements IFuzzySet {
         StringBuilder sb = new StringBuilder();
         if (domain instanceof SimpleDomain) {
             SimpleDomain simpleDomain = (SimpleDomain) domain;
+            int index = 0;
             for (int i = simpleDomain.getFirst(); i < simpleDomain.getLast(); i++) {
-                sb.append(String.format("d(%d)=%.4f%n", i, memberships[i]));
+                sb.append(String.format("d(%d)=%.4f%n", i, memberships[index++]));
             }
         } else {
             CompositeDomain compositeDomain = (CompositeDomain) domain;
