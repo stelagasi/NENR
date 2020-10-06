@@ -1,7 +1,7 @@
 package hr.fer.zemris.fuzzy;
 
 public class Debug {
-
+    //todo dodaj metodu za print neizrazitog skupa ?
     public static void print(IDomain domain, String headingText) {
         if (headingText != null) {
             System.out.println(headingText);
@@ -11,6 +11,13 @@ public class Debug {
         }
         System.out.println("Kardinalitet domene je: " + domain.getCardinality());
         System.out.println();
+    }
+
+    public static void print(IFuzzySet fuzzySet, String headingText) {
+        if (headingText != null) {
+            System.out.println(headingText);
+        }
+        System.out.println(fuzzySet);
     }
 
 }
