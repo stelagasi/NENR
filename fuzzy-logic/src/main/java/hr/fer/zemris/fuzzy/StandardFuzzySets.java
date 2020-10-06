@@ -1,18 +1,35 @@
 package hr.fer.zemris.fuzzy;
 
 public class StandardFuzzySets {
-    //todo što su intovi
-    public static IIntUnaryFunction lFunction(int i, int j){
-        return null;
+
+    public static IIntUnaryFunction lFunction(int alpha, int beta){
+        if(alpha == beta) throw new IllegalArgumentException();
+        return index -> {
+            if(index < alpha) return 1;
+            if(index >= beta) return 0;
+            return (double) (beta - index) / (beta - alpha);
+        };
     }
 
-    //todo što su intovi
-    public static IIntUnaryFunction gammaFunction(int i, int j){
-        return null;
+    public static IIntUnaryFunction gammaFunction(int alpha, int beta){
+        if(alpha == beta) throw new IllegalArgumentException();
+        return index -> {
+            if(index < alpha) return 0;
+            if(index >= beta) return 1;
+            return (double) (index - alpha) / (beta - alpha);
+        };
     }
 
-    //todo što su intovi
-    public static IIntUnaryFunction lambdaFunction(int i, int j){
-        return null;
+    public static IIntUnaryFunction lambdaFunction(int alpha, int beta, int gamma){
+        if(alpha == beta || beta == gamma) throw new IllegalArgumentException();
+        return index -> {
+            if(index < alpha) return 0;
+            if(index >= gamma) return 0;
+            if(beta <= index) {
+                return (double) (gamma - index) / (gamma - beta);
+            } else {
+                return (double) (index - alpha) / (beta - alpha);
+            }
+        };
     }
 }
