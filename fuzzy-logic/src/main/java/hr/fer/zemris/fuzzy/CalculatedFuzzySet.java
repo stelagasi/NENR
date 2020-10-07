@@ -19,7 +19,7 @@ public class CalculatedFuzzySet implements IFuzzySet {
         double[] memberships = new double[domain.getCardinality()];
         int index = 0;
         for (int i = domain.getFirst(); i < domain.getLast(); i++) {
-            memberships[index++] = intUnaryFunction.valueAt(i);
+            memberships[index] = intUnaryFunction.valueAt(index++);
         }
         return memberships;
     }
