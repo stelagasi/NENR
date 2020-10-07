@@ -25,10 +25,10 @@ public class StandardFuzzySets {
         return index -> {
             if(index < alpha) return 0;
             if(index >= gamma) return 0;
-            if(beta <= index) {
-                return (double) (gamma - index) / (gamma - beta);
-            } else {
+            if(index < beta) {
                 return (double) (index - alpha) / (beta - alpha);
+            } else {
+                return (double) (gamma - index) / (gamma - beta);
             }
         };
     }
