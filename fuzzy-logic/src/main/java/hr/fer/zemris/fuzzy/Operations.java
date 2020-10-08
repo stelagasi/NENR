@@ -2,12 +2,11 @@ package hr.fer.zemris.fuzzy;
 
 public class Operations {
 
-    //todo
     public static IFuzzySet unaryOperation(IFuzzySet fuzzySet, IUnaryFunction unaryFunction){
+        //fuzzySet.getDomain();
         return null;
     }
 
-    //todo
     public static IFuzzySet binaryOperation(IFuzzySet firstFuzzySet, IFuzzySet secondFuzzySet, IBinaryFunction binaryFunction){
         return null;
     }

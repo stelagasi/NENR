@@ -23,14 +23,12 @@ public class MutableFuzzySet implements IFuzzySet {
         return memberships[domain.indexOfElement(element)];
     }
 
-    //todo što točno vraća? i jel dobro ovo s double?
     public MutableFuzzySet set(DomainElement element, double membership) {
         if (memberships == null) memberships = new double[1];
         memberships[domain.indexOfElement(element)] = membership;
         return this;
     }
 
-    //todo jel tu zaista samo simpledomain? i kako radi ovo čudo za composite?
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
