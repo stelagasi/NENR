@@ -30,7 +30,7 @@ public class CalculatedFuzzySet implements IFuzzySet {
             SimpleDomain simpleDomain = (SimpleDomain) domain;
             int index = 0;
             for (int i = simpleDomain.getFirst(); i < simpleDomain.getLast(); i++) {
-                sb.append(String.format("d(%d)=%.4f%n", i, getValueAt(new DomainElement(index++))));
+                sb.append(String.format("d(%d)=%.6f%n", i, getValueAt(new DomainElement(index++))));
             }
         }
         return sb.toString();

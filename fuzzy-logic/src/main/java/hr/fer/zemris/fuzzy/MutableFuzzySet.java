@@ -36,14 +36,14 @@ public class MutableFuzzySet implements IFuzzySet {
             SimpleDomain simpleDomain = (SimpleDomain) domain;
             int index = 0;
             for (int i = simpleDomain.getFirst(); i < simpleDomain.getLast(); i++) {
-                sb.append(String.format("d(%d)=%.4f%n", i, memberships[index++]));
+                sb.append(String.format("d(%d)=%.6f%n", i, memberships[index++]));
             }
         } else {
             CompositeDomain compositeDomain = (CompositeDomain) domain;
             Iterator<DomainElement> iterator = compositeDomain.iterator();
             int index = 0;
             while (iterator.hasNext()) {
-                sb.append(String.format("d(%d)=%.4f%n", index, memberships[index]));
+                sb.append(String.format("d(%d)=%.6f%n", index, memberships[index]));
                 index++;
             }
         }
