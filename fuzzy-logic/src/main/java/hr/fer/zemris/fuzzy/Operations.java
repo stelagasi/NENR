@@ -38,14 +38,14 @@ public class Operations {
         return Math::max;
     }
 
-    //todo
-    public static IBinaryFunction hamacherTNorm(double x) {
-        return null;
+    public static IBinaryFunction hamacherTNorm(double ni) {
+        if(ni < 0) throw new IllegalArgumentException();
+        return (x1, x2) -> (x1 * x2) / (ni + (1 - ni) * (x1 + x2 - x1 * x2));
     }
 
-    //todo
-    public static IBinaryFunction hamacherSNorm(double x) {
-        return null;
+    public static IBinaryFunction hamacherSNorm(double ni) {
+        if(ni < 0) throw new IllegalArgumentException();
+        return (x1, x2) -> (x1 + x2 - (2 - ni) * x1 * x2) / (1 - (1 - ni) * x1 * x2);
     }
 
 }
