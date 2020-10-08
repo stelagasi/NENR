@@ -23,7 +23,6 @@ public class CompositeDomain extends Domain {
                 return current < getCardinality();
             }
 
-            //todo probaj s primitivnim rijesiti
             @Override
             public DomainElement next() {
                 ArrayList<Integer> values = new ArrayList<>();
