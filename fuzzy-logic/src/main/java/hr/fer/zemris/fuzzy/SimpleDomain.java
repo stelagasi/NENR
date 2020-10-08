@@ -1,6 +1,7 @@
 package hr.fer.zemris.fuzzy;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 public class SimpleDomain extends Domain {
 
@@ -51,5 +52,19 @@ public class SimpleDomain extends Domain {
 
     public int getLast() {
         return last;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SimpleDomain that = (SimpleDomain) o;
+        return first == that.first &&
+                last == that.last;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(first, last);
     }
 }

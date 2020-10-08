@@ -1,6 +1,7 @@
 package hr.fer.zemris.fuzzy;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class CompositeDomain extends Domain {
@@ -44,35 +45,6 @@ public class CompositeDomain extends Domain {
         };
     }
 
-//    int position = current;
-//    ArrayList<Integer> values = new ArrayList<>();
-//                for (int i = getNumberOfComponents() - 1; i >= 0; i--) {
-//        if (getComponent(i).getCardinality() > position) {
-//            for (int j = 0; j < getNumberOfComponents() - i - 1; j++) {
-//                SimpleDomain simpleComponent = (SimpleDomain) getComponent(j);
-//                values.add(simpleComponent.getFirst());
-//            }
-//            SimpleDomain simpleComponent = (SimpleDomain) getComponent(i);
-//            values.add(simpleComponent.getFirst() + position);
-//            for (int k = i+1; k < getNumberOfComponents(); k++) {
-//                simpleComponent = (SimpleDomain) getComponent(k);
-//                position += simpleComponent.getCardinality();
-//                simpleComponent = (SimpleDomain) getComponent(k);
-//                if (simpleComponent.getCardinality())
-//                    values.add(simpleComponent.getFirst())
-//                values.add(simpleComponent.getFirst() + position);
-//            }
-//
-//            int[] intValues = new int[values.size()];
-//            for (int w = 0; w < values.size(); w++) {
-//                intValues[w] = values.get(w);
-//            }
-//            return new DomainElement(intValues);
-//        } else {
-//            position -= getComponent(i).getCardinality() - 1;
-//        }
-//    }
-
     @Override
     public int getCardinality() {
         int cardinality = 1;
@@ -90,5 +62,18 @@ public class CompositeDomain extends Domain {
     @Override
     public int getNumberOfComponents() {
         return this.simpleDomains.length;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CompositeDomain that = (CompositeDomain) o;
+        return Arrays.equals(simpleDomains, that.simpleDomains);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(simpleDomains);
     }
 }
