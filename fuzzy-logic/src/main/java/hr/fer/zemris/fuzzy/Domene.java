@@ -14,5 +14,4 @@ public class Domene {
         System.out.println(d3.elementForIndex(14));
         System.out.println(d3.indexOfElement(DomainElement.of(4, 1)));
     }
-
 }

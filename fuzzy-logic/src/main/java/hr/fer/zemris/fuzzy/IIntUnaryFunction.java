@@ -1,5 +1,5 @@
 package hr.fer.zemris.fuzzy;
 
 public interface IIntUnaryFunction {
-    double valueAt(int index); //todo jel index?
+    double valueAt(int x);
 }

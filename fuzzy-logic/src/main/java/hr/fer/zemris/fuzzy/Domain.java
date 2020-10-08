@@ -1,6 +1,5 @@
 package hr.fer.zemris.fuzzy;
 
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 

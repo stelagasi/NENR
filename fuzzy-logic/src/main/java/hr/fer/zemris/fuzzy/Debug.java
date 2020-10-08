@@ -1,7 +1,6 @@
 package hr.fer.zemris.fuzzy;
 
 public class Debug {
-    //todo dodaj metodu za print neizrazitog skupa ?
     public static void print(IDomain domain, String headingText) {
         if (headingText != null) {
             System.out.println(headingText);
