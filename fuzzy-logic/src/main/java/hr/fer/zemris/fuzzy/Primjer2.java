@@ -11,14 +11,12 @@ public class Primjer2 {
                 .set(DomainElement.of(3), 0.4)
                 .set(DomainElement.of(4), 0.2);
         Debug.print(set1, "Set1:");
-        IFuzzySet notSet1 = Operations.unaryOperation(
-                set1, Operations.zadehNot());
+        IFuzzySet notSet1 = Operations.unaryOperation(set1, Operations.zadehNot());
         Debug.print(notSet1, "notSet1:");
         IFuzzySet union = Operations.binaryOperation(
                 set1, notSet1, Operations.zadehOr());
         Debug.print(union, "Set1 union notSet1:");
-        IFuzzySet hinters = Operations.binaryOperation(
-                set1, notSet1, Operations.hamacherTNorm(1.0));
+        IFuzzySet hinters = Operations.binaryOperation(set1, notSet1, Operations.hamacherTNorm(1.0));
         Debug.print(hinters, "Set1 intersection with notSet1 using parameterised Hamacher T norm with parameter 1.0:");
     }
 }
