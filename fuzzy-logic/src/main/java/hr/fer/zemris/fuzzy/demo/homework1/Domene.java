@@ -1,4 +1,9 @@
-package hr.fer.zemris.fuzzy;
+package hr.fer.zemris.fuzzy.demo.homework1;
+
+import hr.fer.zemris.fuzzy.Debug;
+import hr.fer.zemris.fuzzy.Domain;
+import hr.fer.zemris.fuzzy.DomainElement;
+import hr.fer.zemris.fuzzy.IDomain;
 
 public class Domene {
 

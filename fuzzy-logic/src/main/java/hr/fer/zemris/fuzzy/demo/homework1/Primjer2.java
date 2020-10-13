@@ -1,4 +1,6 @@
-package hr.fer.zemris.fuzzy;
+package hr.fer.zemris.fuzzy.demo.homework1;
+
+import hr.fer.zemris.fuzzy.*;
 
 public class Primjer2 {
 
