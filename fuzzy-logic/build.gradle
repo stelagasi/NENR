@@ -1,6 +1,21 @@
 plugins {
     id 'java'
+    id 'application'
 }
+
+jar {
+    classifier = 'boot'
+    mainClassName = 'hr.fer.zemris.fuzzy.demo.homework3.Main'
+    manifest {
+        attributes(
+                'Main-Class': 'hr.fer.zemris.fuzzy.demo.homework3.Main'
+        )
+    }
+}
+
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
 group 'hr.fer'
 version '1.0-SNAPSHOT'
 repositories {
