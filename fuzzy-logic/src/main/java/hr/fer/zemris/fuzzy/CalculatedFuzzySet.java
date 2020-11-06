@@ -20,7 +20,7 @@ public class CalculatedFuzzySet implements IFuzzySet {
 
     @Override
     public double getValueAt(DomainElement element) {
-        return this.intUnaryFunction.valueAt(element.getComponentValue(0));
+        return this.intUnaryFunction.valueAt(domain.indexOfElement(element));
     }
 
     @Override
@@ -30,7 +30,7 @@ public class CalculatedFuzzySet implements IFuzzySet {
             SimpleDomain simpleDomain = (SimpleDomain) domain;
             int index = 0;
             for (int i = simpleDomain.getFirst(); i < simpleDomain.getLast(); i++) {
-                sb.append(String.format("d(%d)=%.6f%n", i, getValueAt(new DomainElement(index++))));
+                sb.append(String.format("d(%d)=%.6f%n", i, getValueAt(new DomainElement(i))));
             }
         }
         return sb.toString();
