@@ -1,7 +1,9 @@
 package hr.fer.zemris.fuzzy;
 
 
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Objects;
 
 public class MutableFuzzySet implements IFuzzySet {
     private double[] memberships;
@@ -17,7 +19,6 @@ public class MutableFuzzySet implements IFuzzySet {
         return domain;
     }
 
-
     @Override
     public double getValueAt(DomainElement element) {
         return memberships[domain.indexOfElement(element)];
@@ -27,6 +28,22 @@ public class MutableFuzzySet implements IFuzzySet {
         if (memberships == null) memberships = new double[1];
         memberships[domain.indexOfElement(element)] = membership;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MutableFuzzySet that = (MutableFuzzySet) o;
+        return Arrays.equals(memberships, that.memberships) &&
+                Objects.equals(domain, that.domain);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(domain);
+        result = 31 * result + Arrays.hashCode(memberships);
+        return result;
     }
 
     @Override
