@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class DomainElement {
     private final int[] values;
 
-    DomainElement(int... values) {
+    public DomainElement(int... values) {
         if (values.length <= 0) throw new IllegalArgumentException();
         this.values = values;
     }
