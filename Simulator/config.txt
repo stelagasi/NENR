@@ -1,0 +1,4 @@
+java -jar E:\FER\NENR\fuzzy-logic\build\libs\fuzzy-logic-1.0-SNAPSHOT-boot.jar
+3
+20
+10
