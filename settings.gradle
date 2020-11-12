@@ -1,4 +1,5 @@
 rootProject.name = 'NENR'
 
 include 'fuzzy-logic'
+include 'genetic-algorithm'
 
