@@ -21,10 +21,10 @@ public class Main {
         IFunction function = (x, y, chromosomes) -> sin(chromosomes.get(0) + chromosomes.get(1) * x) +
                 chromosomes.get(2) * cos(x * (chromosomes.get(3) + y)) * (1 / (1 + exp(pow(x - chromosomes.get(4), 2))));
 
-        PopulationEvaluator populationEvaluator1 = new PopulationEvaluator(preparedData1);
-        GeneticAlgorithm gga = new GenerationalGeneticAlgorithm(function, populationEvaluator1, true);
-        List<Individual> population = gga.execute(1000);
-//        GeneticAlgorithm ega = new EliminationGeneticAlgorithm(function, populationEvaluator1);
+        PopulationEvaluator populationEvaluator = new PopulationEvaluator(preparedData1);
+        GeneticAlgorithm gga = new GenerationalGeneticAlgorithm(function, populationEvaluator, true);
+        gga.execute(1000);
+//        GeneticAlgorithm ega = new EliminationGeneticAlgorithm(function, populationEvaluator);
 //        ega.execute(1000);
     }
 
