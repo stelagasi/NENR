@@ -2,6 +2,8 @@ package hr.fer.nenr.geneticalgorithm;
 
 import java.util.List;
 
+import static java.lang.Math.pow;
+
 public class PopulationEvaluator {
     private List<InputData> dataset;
 
@@ -14,7 +16,7 @@ public class PopulationEvaluator {
         for (Individual individual : population) {
             double sum = 0.0;
             for (InputData data : dataset) {
-                sum += goalFunction.valueAt(data.getX(), data.getY(), individual.getChromosomes());
+                sum += pow(data.getResult() - goalFunction.valueAt(data.getX(), data.getY(), individual.getChromosomes()), 2);
             }
             double individualFitness = sum / dataset.size();
             individual.setFitness(individualFitness);
