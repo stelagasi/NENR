@@ -18,9 +18,9 @@ public class EliminationGeneticAlgorithm extends GeneticAlgorithm {
         PopulationEvaluator populationEvaluator = this.getPopulationEvaluator();
         int neededIndividuals = (int) (MORTALITY * getNumberInPopulation());
 
-        for (int i = numberOfIterations; i > 0; i--) {
+        for (int i = 0; i < numberOfIterations; i++) {
             double populationPenalty = populationEvaluator.evaluatePenalty(this.getPopulation(), this.getGoalFunction());
-            System.out.println(populationEvaluator.getBestIndividual());
+            System.out.println(i + " " + populationEvaluator.getBestIndividual());
 
             for (int j = 0; j < neededIndividuals; j++) {
                 List<Individual> triple = selection(2, populationPenalty);
