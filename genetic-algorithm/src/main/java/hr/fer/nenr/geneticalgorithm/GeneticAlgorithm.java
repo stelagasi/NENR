@@ -6,12 +6,11 @@ import java.util.Random;
 
 public abstract class GeneticAlgorithm {
     private static final int SIZE_OF_INDIVIDUAL = 5;
-    private static final int INITIAL_POPULATION_SIZE = 20;
+    private static final int INITIAL_POPULATION_SIZE = 100;
     private static final double MIN_CHROMOSOME_VALUE = -4.0;
     private static final double MAX_CHROMOSOME_VALUE = 4.0;
     private static final double MUTATION_PROBABILITY = 0.01;
     private static final int MUTATION_RANGE = 1;
-    private static final double A = 0.5;
     private List<Individual> population;
     private final IFunction goalFunction;
     private final PopulationEvaluator populationEvaluator;
@@ -38,50 +37,16 @@ public abstract class GeneticAlgorithm {
         }
     }
 
-//    Individual reproduction(List<Individual> parents) {
-//        Random random = new Random();
-//        List<Double> firstParentChromosomes = parents.get(0).getChromosomes();
-//        List<Double> secondParentChromosomes = parents.get(1).getChromosomes();
-//        int parentChromosomesSize = firstParentChromosomes.size();
-//
-//        if (parentChromosomesSize != secondParentChromosomes.size()) {
-//            throw new IllegalArgumentException("Parents not the same size");
-//        }
-//
-//        List<Double> childChromosomes = new ArrayList<>(parentChromosomesSize);
-//        for (int j = 0; j < firstParentChromosomes.size(); j++) {
-//            int whichParent = random.nextInt(2);
-//            if (whichParent == 0) {
-//                childChromosomes.add(firstParentChromosomes.get(j));
-//            } else {
-//                childChromosomes.add(secondParentChromosomes.get(j));
-//            }
-//        }
-//        return new Individual(childChromosomes);
-//    }
-
     Individual reproduction(List<Individual> parents) {
-        Individual firstParent = parents.get(0);
-        Individual secondParent = parents.get(1);
+        List<Double> firstParentChromosomes = parents.get(0).getChromosomes();
+        List<Double> secondParentChromosomes = parents.get(1).getChromosomes();
 
-        List<Double> betterParentChromosomes;
-        List<Double> worseParentChromosomes;
-        if(firstParent.getPenalty() < secondParent.getPenalty()) {
-            betterParentChromosomes = firstParent.getChromosomes();
-            worseParentChromosomes = secondParent.getChromosomes();
-        }else {
-            betterParentChromosomes = secondParent.getChromosomes();
-            worseParentChromosomes = firstParent.getChromosomes();
-        }
-        int parentChromosomesSize = betterParentChromosomes.size();
+        int childSize = firstParentChromosomes.size();
 
-        if (parentChromosomesSize != worseParentChromosomes.size()) {
-            throw new IllegalArgumentException("Parents not the same size");
-        }
+        List<Double> childChromosomes = new ArrayList<>();
 
-        List<Double> childChromosomes = new ArrayList<>(parentChromosomesSize);
-        for (int i = 0; i < betterParentChromosomes.size(); i++) {
-            childChromosomes.add(((1 + A) * betterParentChromosomes.get(i) + (1 - A) * worseParentChromosomes.get(i))/2);
+        for (int i = 0; i < childSize; i++) {
+            childChromosomes.add((firstParentChromosomes.get(i) + secondParentChromosomes.get(i))/2);
         }
         return new Individual(childChromosomes);
     }
@@ -146,4 +111,5 @@ public abstract class GeneticAlgorithm {
     public static int getMutationRange() {
         return MUTATION_RANGE;
     }
+
 }
