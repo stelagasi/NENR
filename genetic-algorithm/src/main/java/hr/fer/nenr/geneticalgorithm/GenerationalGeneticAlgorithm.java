@@ -2,6 +2,7 @@ package hr.fer.nenr.geneticalgorithm;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GenerationalGeneticAlgorithm extends GeneticAlgorithm {
     private final boolean elitism;
@@ -19,18 +20,27 @@ public class GenerationalGeneticAlgorithm extends GeneticAlgorithm {
         for (int i = numberOfIterations; i > 0; i--) {
             int individualsNeeded = getInitialPopulationSize();
             List<Individual> nextPopulation = new ArrayList<>(individualsNeeded);
-            double populationFitness = populationEvaluator.evaluate(this.getPopulation(), this.getGoalFunction());
+            double populationFitness = populationEvaluator.evaluateFitness(this.getPopulation(), this.getGoalFunction());
+            System.out.println(populationEvaluator.getBestIndividual());
             if (elitism) {
-                nextPopulation.add(findBestIndividual(populationFitness));
+                nextPopulation.add(populationEvaluator.getBestIndividual());
                 individualsNeeded--;
             }
             List<Individual> parents = selection(2 * individualsNeeded, populationFitness);
-            List<Individual> children = reproduction(parents);
+            List<Individual> children = multipleReproduction(parents);
             mutation(children);
             nextPopulation.addAll(children);
             this.setPopulation(nextPopulation);
         }
         return this.getPopulation();
+    }
+
+    List<Individual> multipleReproduction(List<Individual> parents) {
+        List<Individual> children = new ArrayList<>(parents.size() / 2);
+        for (int i = 0; i < parents.size(); i += 2) {
+            children.add(reproduction(List.of(parents.get(i), parents.get(i + 1))));
+        }
+        return children;
     }
 
     @Override
@@ -43,13 +53,14 @@ public class GenerationalGeneticAlgorithm extends GeneticAlgorithm {
         return parents;
     }
 
-    private Individual findBestIndividual(double populationFitness) {
-        List<Individual> population = this.getPopulation();
-        Individual bestIndividual = population.get(0);
-        for (int i = 1; i < population.size(); i++) {
-            Individual individual = population.get(i);
-            if (individual.getFitness() < bestIndividual.getFitness()) bestIndividual = individual;
+    private int chooseIndividual(double populationFitness) {
+        Random random = new Random();
+        int chosen = 0;
+        double limit = random.nextDouble() * populationFitness;
+        double upperLimit = this.getPopulation().get(0).getPenalty();
+        while (limit > upperLimit && chosen < getPopulation().size() - 1) {
+            upperLimit += getPopulation().get(++chosen).getPenalty();
         }
-        return bestIndividual;
+        return chosen;
     }
 }

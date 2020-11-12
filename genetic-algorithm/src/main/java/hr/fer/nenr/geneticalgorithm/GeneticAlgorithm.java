@@ -11,6 +11,7 @@ public abstract class GeneticAlgorithm {
     private static final double MAX_CHROMOSOME_VALUE = 4.0;
     private static final double MUTATION_PROBABILITY = 0.01;
     private static final int MUTATION_RANGE = 1;
+    private static final double A = 0.5;
     private List<Individual> population;
     private final IFunction goalFunction;
     private final PopulationEvaluator populationEvaluator;
@@ -37,30 +38,52 @@ public abstract class GeneticAlgorithm {
         }
     }
 
-    List<Individual> reproduction(List<Individual> parents) {
-        List<Individual> children = new ArrayList<>(parents.size() / 2);
-        Random random = new Random();
-        for (int i = 0; i < parents.size(); i += 2) {
-            List<Double> firstParentChromosomes = parents.get(i).getChromosomes();
-            List<Double> secondParentChromosomes = parents.get(i + 1).getChromosomes();
-            int parentChromosomesSize = firstParentChromosomes.size();
+//    Individual reproduction(List<Individual> parents) {
+//        Random random = new Random();
+//        List<Double> firstParentChromosomes = parents.get(0).getChromosomes();
+//        List<Double> secondParentChromosomes = parents.get(1).getChromosomes();
+//        int parentChromosomesSize = firstParentChromosomes.size();
+//
+//        if (parentChromosomesSize != secondParentChromosomes.size()) {
+//            throw new IllegalArgumentException("Parents not the same size");
+//        }
+//
+//        List<Double> childChromosomes = new ArrayList<>(parentChromosomesSize);
+//        for (int j = 0; j < firstParentChromosomes.size(); j++) {
+//            int whichParent = random.nextInt(2);
+//            if (whichParent == 0) {
+//                childChromosomes.add(firstParentChromosomes.get(j));
+//            } else {
+//                childChromosomes.add(secondParentChromosomes.get(j));
+//            }
+//        }
+//        return new Individual(childChromosomes);
+//    }
 
-            if (parentChromosomesSize != secondParentChromosomes.size()) {
-                throw new IllegalArgumentException("Parents not the same size");
-            }
+    Individual reproduction(List<Individual> parents) {
+        Individual firstParent = parents.get(0);
+        Individual secondParent = parents.get(1);
 
-            List<Double> childChromosomes = new ArrayList<>(parentChromosomesSize);
-            for (int j = 0; j < firstParentChromosomes.size(); j++) {
-                int whichParent = random.nextInt(2);
-                if (whichParent == 0) {
-                    childChromosomes.add(firstParentChromosomes.get(j));
-                } else {
-                    childChromosomes.add(secondParentChromosomes.get(j));
-                }
-            }
-            children.add(new Individual(childChromosomes));
+        List<Double> betterParentChromosomes;
+        List<Double> worseParentChromosomes;
+        if(firstParent.getPenalty() < secondParent.getPenalty()) {
+            betterParentChromosomes = firstParent.getChromosomes();
+            worseParentChromosomes = secondParent.getChromosomes();
+        }else {
+            betterParentChromosomes = secondParent.getChromosomes();
+            worseParentChromosomes = firstParent.getChromosomes();
         }
-        return children;
+        int parentChromosomesSize = betterParentChromosomes.size();
+
+        if (parentChromosomesSize != worseParentChromosomes.size()) {
+            throw new IllegalArgumentException("Parents not the same size");
+        }
+
+        List<Double> childChromosomes = new ArrayList<>(parentChromosomesSize);
+        for (int i = 0; i < betterParentChromosomes.size(); i++) {
+            childChromosomes.add(((1 + A) * betterParentChromosomes.get(i) + (1 - A) * worseParentChromosomes.get(i))/2);
+        }
+        return new Individual(childChromosomes);
     }
 
     abstract List<Individual> selection(int parentsNeeded, double populationFitness);
@@ -78,17 +101,6 @@ public abstract class GeneticAlgorithm {
         }
 
         return startingPopulation;
-    }
-
-    int chooseIndividual(double populationFitness) {
-        Random random = new Random();
-        int chosen = 0;
-        double limit = random.nextDouble() * populationFitness;
-        double upperLimit = population.get(0).getFitness();
-        while (limit > upperLimit && chosen < population.size() - 1) {
-            upperLimit += population.get(++chosen).getFitness();
-        }
-        return chosen;
     }
 
     public int getNumberInPopulation() {

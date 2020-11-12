@@ -2,6 +2,7 @@ package hr.fer.nenr.geneticalgorithm;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class EliminationGeneticAlgorithm extends GeneticAlgorithm {
     private static final double MORTALITY = 0.5;
@@ -15,38 +16,49 @@ public class EliminationGeneticAlgorithm extends GeneticAlgorithm {
     public List<Individual> execute(int numberOfIterations) {
         this.setPopulation(generateStartingPopulation());
         PopulationEvaluator populationEvaluator = this.getPopulationEvaluator();
+        int neededIndividuals = (int) (MORTALITY * getNumberInPopulation());
 
         for (int i = numberOfIterations; i > 0; i--) {
-            double populationFitness = populationEvaluator.evaluate(this.getPopulation(), this.getGoalFunction());
-            List<Individual> parents = selection((int) (MORTALITY * getNumberInPopulation()) * 2, populationFitness);
-            List<Individual> children = reproduction(parents);
-            mutation(children);
-            this.getPopulation().addAll(children);
+            double populationPenalty = populationEvaluator.evaluatePenalty(this.getPopulation(), this.getGoalFunction());
+            System.out.println(populationEvaluator.getBestIndividual());
+
+            for (int j = 0; j < neededIndividuals; j++) {
+                List<Individual> triple = selection(2, populationPenalty);
+                Individual worstOfThree = findWorst(triple);
+                triple.remove(worstOfThree);
+                Individual child = reproduction(triple);
+                mutation(List.of(child));
+                if(populationEvaluator.evaluatePenaltyOfIndividual(child, getGoalFunction()) < worstOfThree.getPenalty()){
+                    getPopulation().remove(worstOfThree);
+                    getPopulation().add(child);
+                }
+            }
         }
         return this.getPopulation();
     }
 
     @Override
     List<Individual> selection(int parentsNeeded, double populationFitness) {
-        List<Individual> population = this.getPopulation();
-        List<Individual> parents = new ArrayList<>(parentsNeeded);
-
-        for (int i = 0; i < parentsNeeded; i += NUMBER_OF_INDIVIDUALS_TO_SELECT) {
-            List<Individual> triples = new ArrayList<>(NUMBER_OF_INDIVIDUALS_TO_SELECT);
-            for (int j = 0; j < NUMBER_OF_INDIVIDUALS_TO_SELECT; j++) {
-                triples.add(population.get(chooseIndividual(populationFitness)));
-            }
-            Individual worstOfThree = triples.get(0);
-            for (int k = 1; k < NUMBER_OF_INDIVIDUALS_TO_SELECT; k++) {
-                Individual individual = triples.get(k);
-                if (individual.getFitness() > worstOfThree.getFitness()) {
-                    worstOfThree = individual;
-                }
-                population.remove(worstOfThree);
-                parents.addAll(triples);
-            }
-            triples.clear();
+        List<Individual> triple = new ArrayList<>(NUMBER_OF_INDIVIDUALS_TO_SELECT);
+        for (int j = 0; j < NUMBER_OF_INDIVIDUALS_TO_SELECT; j++) {
+            triple.add(getPopulation().get(chooseIndividual()));
         }
-        return parents;
+        return triple;
+    }
+
+    private int chooseIndividual() {
+        Random random = new Random();
+        return random.nextInt(getNumberInPopulation());
+    }
+
+    private Individual findWorst(List<Individual> triple) {
+        Individual worstOfThree = triple.get(0);
+        for (int k = 1; k < NUMBER_OF_INDIVIDUALS_TO_SELECT; k++) {
+            Individual individual = triple.get(k);
+            if (individual.getPenalty() > worstOfThree.getPenalty()) {
+                worstOfThree = individual;
+            }
+        }
+        return worstOfThree;
     }
 }

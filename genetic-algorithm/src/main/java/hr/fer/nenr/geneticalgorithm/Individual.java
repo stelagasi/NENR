@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Individual {
     private final List<Double> chromosomes;
-    private double fitness;
+    private double penalty;
 
     public Individual(List<Double> chromosomes) {
         this.chromosomes = chromosomes;
@@ -15,19 +15,19 @@ public class Individual {
         return chromosomes;
     }
 
-    public double getFitness() {
-        return fitness;
+    public double getPenalty() {
+        return penalty;
     }
 
-    public void setFitness(double fitness) {
-        this.fitness = fitness;
+    public void setPenalty(double penalty) {
+        this.penalty = penalty;
     }
 
     @Override
     public String toString() {
         return "Individual{" +
                 "chromosomes=" + chromosomes +
-                ", fitness=" + fitness +
+                ", penalty=" + penalty +
                 '}';
     }
 
@@ -36,12 +36,12 @@ public class Individual {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Individual that = (Individual) o;
-        return Double.compare(that.fitness, fitness) == 0 &&
+        return Double.compare(that.penalty, penalty) == 0 &&
                 Objects.equals(chromosomes, that.chromosomes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(chromosomes, fitness);
+        return Objects.hash(chromosomes, penalty);
     }
 }
