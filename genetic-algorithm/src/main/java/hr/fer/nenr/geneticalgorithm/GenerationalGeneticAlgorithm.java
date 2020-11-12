@@ -17,11 +17,11 @@ public class GenerationalGeneticAlgorithm extends GeneticAlgorithm {
         this.setPopulation(generateStartingPopulation());
         PopulationEvaluator populationEvaluator = this.getPopulationEvaluator();
 
-        for (int i = numberOfIterations; i > 0; i--) {
+        for (int i = 0; i < numberOfIterations; i++) {
             int individualsNeeded = getInitialPopulationSize();
             List<Individual> nextPopulation = new ArrayList<>(individualsNeeded);
-            double populationFitness = populationEvaluator.evaluateFitness(this.getPopulation(), this.getGoalFunction());
-            System.out.println(populationEvaluator.getBestIndividual());
+            double populationFitness = populationEvaluator.evaluatePenalty(this.getPopulation(), this.getGoalFunction());
+            System.out.println(i + " " + populationEvaluator.getBestIndividual());
             if (elitism) {
                 nextPopulation.add(populationEvaluator.getBestIndividual());
                 individualsNeeded--;
@@ -46,20 +46,25 @@ public class GenerationalGeneticAlgorithm extends GeneticAlgorithm {
     @Override
     List<Individual> selection(int parentsNeeded, double populationFitness) {
         List<Individual> parents = new ArrayList<>(parentsNeeded);
+        List<Individual> copy = new ArrayList<>(getNumberInPopulation());
+        for (int i = 0; i < getNumberInPopulation(); i++) {
+            copy.add(new Individual(getPopulation().get(i).getChromosomes()));
+        }
+        getPopulationEvaluator().evaluateFitness(copy, getGoalFunction());
 
         for (int i = 0; i < parentsNeeded; i++) {
-            parents.add(this.getPopulation().get(chooseIndividual(populationFitness)));
+            parents.add(this.getPopulation().get(chooseIndividual(copy, populationFitness)));
         }
         return parents;
     }
 
-    private int chooseIndividual(double populationFitness) {
+    private int chooseIndividual(List<Individual> population, double populationFitness) {
         Random random = new Random();
         int chosen = 0;
         double limit = random.nextDouble() * populationFitness;
-        double upperLimit = this.getPopulation().get(0).getPenalty();
-        while (limit > upperLimit && chosen < getPopulation().size() - 1) {
-            upperLimit += getPopulation().get(++chosen).getPenalty();
+        double upperLimit = population.get(0).getPenalty();
+        while (limit > upperLimit && chosen < population.size() - 1) {
+            upperLimit += population.get(++chosen).getPenalty();
         }
         return chosen;
     }
