@@ -28,7 +28,7 @@ public class EliminationGeneticAlgorithm extends GeneticAlgorithm {
                 triple.remove(worstOfThree);
                 Individual child = reproduction(triple);
                 mutation(List.of(child));
-                if(populationEvaluator.evaluatePenaltyOfIndividual(child, getGoalFunction()) < worstOfThree.getPenalty()){
+                if (populationEvaluator.evaluatePenaltyOfIndividual(child, getGoalFunction()) < worstOfThree.getPenalty()) {
                     getPopulation().remove(worstOfThree);
                     getPopulation().add(child);
                 }

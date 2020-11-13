@@ -46,7 +46,7 @@ public abstract class GeneticAlgorithm {
         List<Double> childChromosomes = new ArrayList<>();
 
         for (int i = 0; i < childSize; i++) {
-            childChromosomes.add((firstParentChromosomes.get(i) + secondParentChromosomes.get(i))/2);
+            childChromosomes.add((firstParentChromosomes.get(i) + secondParentChromosomes.get(i)) / 2);
         }
         return new Individual(childChromosomes);
     }

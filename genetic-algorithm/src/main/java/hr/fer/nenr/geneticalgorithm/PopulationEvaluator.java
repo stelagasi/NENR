@@ -2,7 +2,7 @@ package hr.fer.nenr.geneticalgorithm;
 
 import java.util.List;
 
-import static java.lang.Double.*;
+import static java.lang.Double.MAX_VALUE;
 import static java.lang.Math.pow;
 
 public class PopulationEvaluator {
@@ -26,10 +26,10 @@ public class PopulationEvaluator {
         for (Individual individual : population) {
             double individualPenalty = evaluatePenaltyOfIndividual(individual, goalFunction);
 
-            if(worstIndividual.getPenalty() < individualPenalty){
+            if (worstIndividual.getPenalty() < individualPenalty) {
                 worstIndividual = individual;
             }
-            if(bestIndividual.getPenalty() > individualPenalty){
+            if (bestIndividual.getPenalty() > individualPenalty) {
                 bestIndividual = individual;
             }
 
@@ -47,7 +47,7 @@ public class PopulationEvaluator {
         evaluatePenalty(population, goalFunction);
         double worstPenalty = worstIndividual.getPenalty();
         double populationFitness = 0.0;
-        for(Individual individual : population){
+        for (Individual individual : population) {
             double fitness = worstPenalty - individual.getPenalty();
             populationFitness += fitness;
             individual.setPenalty(fitness);
@@ -55,7 +55,7 @@ public class PopulationEvaluator {
         return populationFitness;
     }
 
-    public double evaluatePenaltyOfIndividual(Individual individual, IFunction goalFunction){
+    public double evaluatePenaltyOfIndividual(Individual individual, IFunction goalFunction) {
         double sum = 0.0;
         for (InputData data : dataset) {
             sum += pow(data.getResult() - goalFunction.valueAt(data.getX(), data.getY(), individual.getChromosomes()), 2);
