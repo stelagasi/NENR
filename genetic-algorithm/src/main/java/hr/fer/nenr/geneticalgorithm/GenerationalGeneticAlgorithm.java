@@ -35,16 +35,8 @@ public class GenerationalGeneticAlgorithm extends GeneticAlgorithm {
         return this.getPopulation();
     }
 
-    List<Individual> multipleReproduction(List<Individual> parents) {
-        List<Individual> children = new ArrayList<>(parents.size() / 2);
-        for (int i = 0; i < parents.size(); i += 2) {
-            children.add(reproduction(List.of(parents.get(i), parents.get(i + 1))));
-        }
-        return children;
-    }
-
     @Override
-    List<Individual> selection(int parentsNeeded, double populationFitness) {
+    protected List<Individual> selection(int parentsNeeded, double populationFitness) {
         List<Individual> parents = new ArrayList<>(parentsNeeded);
         List<Individual> copy = new ArrayList<>(getNumberInPopulation());
         for (int i = 0; i < getNumberInPopulation(); i++) {
@@ -56,6 +48,14 @@ public class GenerationalGeneticAlgorithm extends GeneticAlgorithm {
             parents.add(this.getPopulation().get(chooseIndividual(copy, populationFitness)));
         }
         return parents;
+    }
+
+    private List<Individual> multipleReproduction(List<Individual> parents) {
+        List<Individual> children = new ArrayList<>(parents.size() / 2);
+        for (int i = 0; i < parents.size(); i += 2) {
+            children.add(reproduction(List.of(parents.get(i), parents.get(i + 1))));
+        }
+        return children;
     }
 
     private int chooseIndividual(List<Individual> population, double populationFitness) {

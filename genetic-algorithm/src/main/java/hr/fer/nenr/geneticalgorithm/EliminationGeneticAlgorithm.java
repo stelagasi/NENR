@@ -38,9 +38,9 @@ public class EliminationGeneticAlgorithm extends GeneticAlgorithm {
     }
 
     @Override
-    List<Individual> selection(int parentsNeeded, double populationFitness) {
+    protected List<Individual> selection(int parentsNeeded, double populationFitness) {
         List<Individual> triple = new ArrayList<>(NUMBER_OF_INDIVIDUALS_TO_SELECT);
-        for (int j = 0; j < NUMBER_OF_INDIVIDUALS_TO_SELECT; j++) {
+        for (int i = 0; i < NUMBER_OF_INDIVIDUALS_TO_SELECT; i++) {
             triple.add(getPopulation().get(chooseIndividual()));
         }
         return triple;
@@ -53,8 +53,8 @@ public class EliminationGeneticAlgorithm extends GeneticAlgorithm {
 
     private Individual findWorst(List<Individual> triple) {
         Individual worstOfThree = triple.get(0);
-        for (int k = 1; k < NUMBER_OF_INDIVIDUALS_TO_SELECT; k++) {
-            Individual individual = triple.get(k);
+        for (int i = 1; i < NUMBER_OF_INDIVIDUALS_TO_SELECT; i++) {
+            Individual individual = triple.get(i);
             if (individual.getPenalty() > worstOfThree.getPenalty()) {
                 worstOfThree = individual;
             }

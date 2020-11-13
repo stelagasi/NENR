@@ -22,7 +22,7 @@ public abstract class GeneticAlgorithm {
 
     public abstract List<Individual> execute(int numberOfIterations);
 
-    void mutation(List<Individual> children) {
+    protected void mutation(List<Individual> children) {
         Random random = new Random();
         double mutationProbability = getMutationProbability();
 
@@ -37,7 +37,7 @@ public abstract class GeneticAlgorithm {
         }
     }
 
-    Individual reproduction(List<Individual> parents) {
+    protected Individual reproduction(List<Individual> parents) {
         List<Double> firstParentChromosomes = parents.get(0).getChromosomes();
         List<Double> secondParentChromosomes = parents.get(1).getChromosomes();
 
@@ -51,9 +51,9 @@ public abstract class GeneticAlgorithm {
         return new Individual(childChromosomes);
     }
 
-    abstract List<Individual> selection(int parentsNeeded, double populationFitness);
+    protected abstract List<Individual> selection(int parentsNeeded, double populationFitness);
 
-    List<Individual> generateStartingPopulation() {
+    protected List<Individual> generateStartingPopulation() {
         List<Individual> startingPopulation = new ArrayList<>(INITIAL_POPULATION_SIZE);
         Random random = new Random();
 
