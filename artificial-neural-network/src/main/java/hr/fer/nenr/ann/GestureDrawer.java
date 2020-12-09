@@ -13,7 +13,8 @@ import static java.awt.Color.BLACK;
 public class GestureDrawer extends JFrame {
     private static final int FRAME_WIDTH = 800;
     private static final int FRAME_HEIGHT = 1500;
-    private static ArtificialNeuralNetwork artificialNeuralNetwork;
+    private final List<List<Point>> examples = new ArrayList<>();
+    private static int M;
 
     public GestureDrawer() throws HeadlessException {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -24,7 +25,6 @@ public class GestureDrawer extends JFrame {
     private void initGUI() {
         JTabbedPane tabbedPane = new JTabbedPane();
         JComponent drawing = new JPanel() {
-            final List<List<Point>> examples = new ArrayList<>();
             final List<Point> currentPoints = new ArrayList<>();
             {
                 addMouseListener(new MouseAdapter() {
@@ -34,7 +34,7 @@ public class GestureDrawer extends JFrame {
                     }
 
                     public void mouseReleased(MouseEvent e) {
-                        examples.add(new ArrayList<>(currentPoints));
+                        examples.add(new ArrayList<>(PointHandler.findRepresentativePoints(currentPoints, M)));
                         removeAll();
                         updateUI();
                     }
@@ -55,11 +55,11 @@ public class GestureDrawer extends JFrame {
                     }
             }
         };
-        JComponent learning = new JPanel();
+       // JComponent learning = new JPanel();
         JComponent testing = new JPanel() {
         };
         tabbedPane.addTab("Drawing", drawing);
-        tabbedPane.addTab("Learning", learning);
+       // tabbedPane.addTab("Learning", learning);
         tabbedPane.addTab("Testing", testing);
 
         getContentPane().add(tabbedPane);
@@ -67,6 +67,9 @@ public class GestureDrawer extends JFrame {
     }
 
     public static void main(String[] args) {
+        if(args.length != 4) throw new IllegalArgumentException("Number of arguments given is not 4");
+        M = Integer.parseInt(args[1]);
+
         SwingUtilities.invokeLater(() -> new GestureDrawer().setVisible(true));
     }
 }
