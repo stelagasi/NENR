@@ -1,7 +1,10 @@
 package hr.fer.nenr.ann;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
@@ -69,4 +72,58 @@ public class PointHandler {
         return distances;
     }
 
+    public static void writeExampleInFile(File file, Example example) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        List<Point> points = example.getPoints();
+        for(Point point : points){
+            stringBuilder.append(point.getX()).append(",").append(point.getY());
+        }
+        stringBuilder.append(",");
+        List<Double> expectedLabel = example.getExpectedLabel();
+        for (int i = 0; i < expectedLabel.size()-1; i++) {
+            stringBuilder.append(expectedLabel.get(i)).append(",");
+        }
+        stringBuilder.append(expectedLabel.get(expectedLabel.size()-1));
+
+        try {
+            FileWriter filewriter = new FileWriter(file, true);
+            filewriter.write(stringBuilder.toString() + System.lineSeparator());
+            filewriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static List<Example> readExamplesFromFile(File file, int M){
+        List<Example> examples = new ArrayList<>();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line = reader.readLine();
+            examples.add(extractExample(line, M));
+            while (true) {
+                line = reader.readLine();
+                if(line == null) break;
+                examples.add(extractExample(line, M));
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return examples;
+    }
+
+    private static Example extractExample(String line, int M){
+        String[] splitLine = line.split(",");
+        List<Double> numbers = Arrays.stream(splitLine).map(Double::parseDouble).collect(Collectors.toList());
+        List<Point> points = new ArrayList<>();
+        for (int i = 0; i < M; i++) {
+            points.add(new Point(numbers.get(i), numbers.get(i+1)));
+        }
+        List<Double> expectedLabel = new ArrayList<>();
+        for (int i = 2*M; i < numbers.size(); i++) {
+            expectedLabel.add(numbers.get(i));
+        }
+        return new Example(points, expectedLabel);
+    }
 }
