@@ -24,7 +24,7 @@ public class Demo {
         if (layers.get(layers.size() - 1) != NUMBER_OF_CLASSES)
             throw new IllegalArgumentException("Last layer should have " + NUMBER_OF_CLASSES + " neurons");
         ArtificialNeuralNetwork ann = new ArtificialNeuralNetwork(layers);
-        GestureDrawer gestureDrawer = new GestureDrawer(M, file, ann);
+        GestureDrawer gestureDrawer = new GestureDrawer(M, file, ann, 10);
         SwingUtilities.invokeLater(() -> gestureDrawer.setVisible(true));
     }
 }

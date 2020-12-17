@@ -15,14 +15,16 @@ public class GestureDrawer extends JFrame {
     private static final int FRAME_WIDTH = 800;
     private static final int FRAME_HEIGHT = 1500;
     private static final int NUMBER_OF_CLASSES = 5;
-    private static final int NUMBER_OF_EXAMPLES = 20;
+    private static final int NUMBER_OF_EXAMPLES = 10;
     private final List<Example> examples = new ArrayList<>();
     private final int M;
     private final ArtificialNeuralNetwork ann;
+    private final int batchSize;
 
-    public GestureDrawer(int M, File file, ArtificialNeuralNetwork ann) throws HeadlessException {
+    public GestureDrawer(int M, File file, ArtificialNeuralNetwork ann, int batchSize) throws HeadlessException {
         this.M = M;
         this.ann = ann;
+        this.batchSize = batchSize;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         initGUI(file);
         setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -59,7 +61,7 @@ public class GestureDrawer extends JFrame {
                             }
                             List<Example> examplesFromFile = PointHandler.readExamplesFromFile(file, M);
                             System.out.println(examplesFromFile);
-                            ann.train(examplesFromFile, NUMBER_OF_EXAMPLES);
+                            ann.train(examples, batchSize);
                         }
                     }
                 });
@@ -93,8 +95,9 @@ public class GestureDrawer extends JFrame {
 
                     public void mouseReleased(MouseEvent e) {
                         Example example = new Example(new ArrayList<>(PointHandler.findRepresentativePoints(currentPoints, M)), java.util.List.of());
-                        label.setText(ann.predict(List.of(example)).toString());
+                        System.out.println(example);
                         List<Double> prediction = ann.predict(List.of(example)).get(0);
+                        System.out.println(prediction.toString());
                         double max = prediction.get(0);
                         int maxIndex = 0;
                         for (int i = 1; i < prediction.size(); i++) {

@@ -28,8 +28,8 @@ public class PointHandler {
 
         for (Point point : points) {
             point.subtract(meanPoint);
-            if (abs(point.getX()) > mx) mx = point.getX();
-            if (abs(point.getY()) > my) my = point.getY();
+            if (abs(point.getX()) > mx) mx = abs(point.getX());
+            if (abs(point.getY()) > my) my = abs(point.getY());
         }
 
         double m = max(mx, my);
@@ -48,17 +48,28 @@ public class PointHandler {
         for (int i = 0; i < M; i++) {
             double wantedDistance = i * D / (M - 1);
 
-            while(true){
-                if(wantedDistance == currentDistance) {
-                    representativePoints.add(points.get(lastIndex));
-                    break;
-                } else if (currentDistance < wantedDistance) {
-                    currentDistance += distances.get(lastIndex++);
-                } else {
-                    representativePoints.add(points.get(lastIndex));
-                    break;
-                }
+//            while(true){
+//                if(wantedDistance == currentDistance) {
+//                    representativePoints.add(points.get(lastIndex++));
+//                    break;
+//                } else if (currentDistance < wantedDistance) {
+//                    if(lastIndex + 1 == points.size()){
+//                        //representativePoints.add(points.get(lastIndex));
+//                        break;
+//                    }
+//                    currentDistance += distances.get(lastIndex++);
+//                } else {
+//                    representativePoints.add(points.get(lastIndex++));
+//                    break;
+//                }
+//            }
+            Point previous = points.get(lastIndex);
+            while(currentDistance < wantedDistance && lastIndex + 1 < points.size()){
+                Point current = points.get(++lastIndex);
+                currentDistance += Point.calculateDistance(previous, current);
+                previous = current;
             }
+            representativePoints.add(previous);
         }
 
         return representativePoints;
@@ -77,9 +88,8 @@ public class PointHandler {
 
         List<Point> points = example.getPoints();
         for(Point point : points){
-            stringBuilder.append(point.getX()).append(",").append(point.getY());
+            stringBuilder.append(point.getX()).append(",").append(point.getY()).append(',');
         }
-        stringBuilder.append(",");
         List<Double> expectedLabel = example.getExpectedLabel();
         for (int i = 0; i < expectedLabel.size()-1; i++) {
             stringBuilder.append(expectedLabel.get(i)).append(",");
@@ -117,7 +127,7 @@ public class PointHandler {
         String[] splitLine = line.split(",");
         List<Double> numbers = Arrays.stream(splitLine).map(Double::parseDouble).collect(Collectors.toList());
         List<Point> points = new ArrayList<>();
-        for (int i = 0; i < M; i++) {
+        for (int i = 0; i < 2*M; i = i+2) {
             points.add(new Point(numbers.get(i), numbers.get(i+1)));
         }
         List<Double> expectedLabel = new ArrayList<>();
