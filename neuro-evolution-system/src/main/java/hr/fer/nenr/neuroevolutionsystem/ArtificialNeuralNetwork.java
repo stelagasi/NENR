@@ -1,6 +1,5 @@
 package hr.fer.nenr.neuroevolutionsystem;
 
-import hr.fer.nenr.geneticalgorithm.Individual;
 import hr.fer.nenr.neuroevolutionsystem.geneticalgorithm.individual.DoubleIndividual;
 
 import java.util.List;
@@ -66,6 +65,16 @@ public class ArtificialNeuralNetwork {
         }
 
         return error/samples.size();
+    }
+
+    public int getNumberOfParameters(){
+        int numberOfParameters = 2 * layers[0] * layers[1];
+
+        for (int i = 2; i < layers.length; i++) {
+            numberOfParameters += layers[i] * (layers[i-1] + 1);
+        }
+
+        return numberOfParameters;
     }
 
 }
