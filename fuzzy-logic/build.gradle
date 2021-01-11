@@ -5,10 +5,10 @@ plugins {
 
 jar {
     classifier = 'boot'
-    mainClassName = 'hr.fer.zemris.fuzzy.demo.homework3.Main'
+    mainClassName = 'hr.fer.zemris.fuzzy.hr.fer.nenr.neuroevolutionsystem.demo.homework3.Main'
     manifest {
         attributes(
-                'Main-Class': 'hr.fer.zemris.fuzzy.demo.homework3.Main'
+                'Main-Class': 'hr.fer.zemris.fuzzy.hr.fer.nenr.neuroevolutionsystem.demo.homework3.Main'
         )
     }
 }
