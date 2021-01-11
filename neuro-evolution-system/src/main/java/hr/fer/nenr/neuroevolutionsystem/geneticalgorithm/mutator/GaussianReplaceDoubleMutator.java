@@ -5,9 +5,9 @@ import hr.fer.nenr.neuroevolutionsystem.geneticalgorithm.individual.DoubleIndivi
 import java.util.List;
 import java.util.Random;
 
-public class DoubleMutator extends Mutator<DoubleIndividual> {
+public class GaussianReplaceDoubleMutator extends Mutator<DoubleIndividual> {
 
-    public DoubleMutator(double mutationProbability, int mutationRange) {
+    public GaussianReplaceDoubleMutator(double mutationProbability, int mutationRange) {
         super(mutationProbability, mutationRange);
     }
 
@@ -18,9 +18,9 @@ public class DoubleMutator extends Mutator<DoubleIndividual> {
 
         for (int i = 0; i < childChromosomes.size(); i++) {
             if (random.nextDouble() < mutationProbability) {
-                double mutation = random.nextDouble() * (mutationRange + mutationRange) - mutationRange;
-                childChromosomes.set(i, childChromosomes.get(i) + mutation);
+                childChromosomes.set(i, random.nextGaussian() * mutationRange);
             }
         }
     }
 }
+
