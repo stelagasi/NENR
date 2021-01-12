@@ -2,6 +2,7 @@ package hr.fer.nenr.neuroevolutionsystem;
 
 import hr.fer.nenr.neuroevolutionsystem.geneticalgorithm.individual.DoubleIndividual;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
@@ -47,7 +48,7 @@ public class ArtificialNeuralNetwork {
             }
         }
 
-        return output[layers.length-1];
+        return output[output.length-1];
     }
 
     public double calculateError(DoubleIndividual individual, Dataset dataset){
@@ -65,6 +66,29 @@ public class ArtificialNeuralNetwork {
         }
 
         return error/samples.size();
+    }
+
+    public void testGA(DoubleIndividual individual, Dataset dataset){
+        List<Sample> samples = dataset.getSamples();
+        int numberOfCorrectSamples = 0;
+
+        for (Sample sample : samples){
+            double[] expectedOutput = sample.getLabel();
+            double[] output = calculateOutput(individual, sample);
+
+            for (int i = 0; i < output.length; i++) {
+                if(output[i] < 0.5) output[i] = 0;
+                else output[i] = 1;
+            }
+
+            boolean correct = Arrays.equals(expectedOutput, output);
+
+            if(correct) numberOfCorrectSamples++;
+
+            System.out.println(sample + ", myOutput = " + Arrays.toString(output) + " " + correct);
+        }
+        System.out.println("Correct classified: " + numberOfCorrectSamples);
+        System.out.println("Incorrect classified: " + (samples.size() - numberOfCorrectSamples));
     }
 
     public int getNumberOfParameters(){
