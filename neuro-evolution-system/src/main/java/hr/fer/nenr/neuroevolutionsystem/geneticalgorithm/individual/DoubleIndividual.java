@@ -24,8 +24,8 @@ public class DoubleIndividual extends Individual<Double> {
     @Override
     public String toString() {
         return "Individual{" +
-                "chromosomes=" + chromosomes +
-                ", penalty=" + penalty +
+                "penalty=" + penalty +
+                ", chromosomes=" + chromosomes +
                 '}';
     }
 

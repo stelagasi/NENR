@@ -9,9 +9,7 @@ import java.util.List;
 import static java.lang.Double.MAX_VALUE;
 import static java.lang.Math.pow;
 
-public class BinaryPopulationEvaluator implements IPopulationEvaluator<BinaryIndividual>{
-    private BinaryIndividual worstIndividual;
-    private BinaryIndividual bestIndividual;
+public abstract class BinaryPopulationEvaluator implements IPopulationEvaluator<BinaryIndividual>{
     private final int lowerBound;
     private final int upperBound;
 
@@ -20,61 +18,61 @@ public class BinaryPopulationEvaluator implements IPopulationEvaluator<BinaryInd
         this.upperBound = upperBound;
     }
 
-    public double evaluatePenalty(List<BinaryIndividual> population) {
-        double populationPenalty = 0.0;
+//    public double evaluatePenalty(List<BinaryIndividual> population) {
+//        double populationPenalty = 0.0;
+//
+//        BinaryIndividual worstIndividual = population.get(0);
+//        BinaryIndividual bestIndividual = population.get(0);
+//
+//        worstIndividual.setPenalty(-MAX_VALUE);
+//        bestIndividual.setPenalty(MAX_VALUE);
+//
+//        for (BinaryIndividual individual : population) {
+//          //  double individualPenalty = evaluatePenalty(individual);
+//
+//            if (worstIndividual.getPenalty() < individualPenalty) {
+//                worstIndividual = individual;
+//            }
+//            if (bestIndividual.getPenalty() > individualPenalty) {
+//                bestIndividual = individual;
+//            }
+//
+//            individual.setPenalty(individualPenalty);
+//            populationPenalty += individualPenalty;
+//        }
+//
+//        this.setWorstIndividual(worstIndividual);
+//        this.setBestIndividual(bestIndividual);
+//
+//        return populationPenalty;
+//    }
 
-        BinaryIndividual worstIndividual = population.get(0);
-        BinaryIndividual bestIndividual = population.get(0);
+//    public double evaluateFitness(List<BinaryIndividual> population) {
+//        evaluatePenalty(population);
+//        double worstPenalty = getWorstIndividual().getPenalty();
+//        double populationFitness = 0.0;
+//        for (BinaryIndividual individual : population) {
+//            double fitness = worstPenalty - individual.getPenalty();
+//            populationFitness += fitness;
+//            individual.setPenalty(fitness);
+//        }
+//        return populationFitness;
+//    }
 
-        worstIndividual.setPenalty(-MAX_VALUE);
-        bestIndividual.setPenalty(MAX_VALUE);
-
-        for (BinaryIndividual individual : population) {
-            double individualPenalty = evaluatePenaltyOfIndividual(individual);
-
-            if (worstIndividual.getPenalty() < individualPenalty) {
-                worstIndividual = individual;
-            }
-            if (bestIndividual.getPenalty() > individualPenalty) {
-                bestIndividual = individual;
-            }
-
-            individual.setPenalty(individualPenalty);
-            populationPenalty += individualPenalty;
-        }
-
-        this.setWorstIndividual(worstIndividual);
-        this.setBestIndividual(bestIndividual);
-
-        return populationPenalty;
-    }
-
-    public double evaluateFitness(List<BinaryIndividual> population) {
-        evaluatePenalty(population);
-        double worstPenalty = getWorstIndividual().getPenalty();
-        double populationFitness = 0.0;
-        for (BinaryIndividual individual : population) {
-            double fitness = worstPenalty - individual.getPenalty();
-            populationFitness += fitness;
-            individual.setPenalty(fitness);
-        }
-        return populationFitness;
-    }
+//
+//    public BinaryIndividual getBestIndividual() {
+//        return bestIndividual;
+//    }
+//
+//
+//    public BinaryIndividual getWorstIndividual() {
+//        return worstIndividual;
+//    }
 
     @Override
-    public BinaryIndividual getBestIndividual() {
-        return bestIndividual;
-    }
-
-    @Override
-    public BinaryIndividual getWorstIndividual() {
-        return worstIndividual;
-    }
-
-    public double evaluatePenaltyOfIndividual(BinaryIndividual individual) {
+    public void evaluatePenalty(BinaryIndividual individual) {
 //        var penalty = Math.abs(goalFunction.valueAt(getDoubleRepresentation(individual).getChromosomes()));
 //        individual.setPenalty(penalty);
-        return 0;
     }
 
     public DoubleIndividual getDoubleRepresentation(BinaryIndividual individual){
@@ -94,12 +92,12 @@ public class BinaryPopulationEvaluator implements IPopulationEvaluator<BinaryInd
         doubleRepresentation.setPenalty(individual.getPenalty());
         return doubleRepresentation;
     }
-
-    public void setWorstIndividual(BinaryIndividual worstIndividual) {
-        this.worstIndividual = worstIndividual;
-    }
-
-    public void setBestIndividual(BinaryIndividual bestIndividual) {
-        this.bestIndividual = bestIndividual;
-    }
+//
+//    public void setWorstIndividual(BinaryIndividual worstIndividual) {
+//        this.worstIndividual = worstIndividual;
+//    }
+//
+//    public void setBestIndividual(BinaryIndividual bestIndividual) {
+//        this.bestIndividual = bestIndividual;
+//    }
 }

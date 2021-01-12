@@ -5,9 +5,10 @@ import hr.fer.nenr.neuroevolutionsystem.geneticalgorithm.individual.DoubleIndivi
 import java.util.ArrayList;
 import java.util.List;
 
-public class AverageDoubleReproduce implements IReproductioner<DoubleIndividual> {
+public class SimulatedBinaryDoubleReproductioner implements IReproductioner<DoubleIndividual> {
     @Override
     public DoubleIndividual reproduce(DoubleIndividual firstParent, DoubleIndividual secondParent) {
+        double alpha = Math.random();
         List<Double> firstParentChromosomes = firstParent.getChromosomes();
         List<Double> secondParentChromosomes = secondParent.getChromosomes();
 
@@ -16,7 +17,7 @@ public class AverageDoubleReproduce implements IReproductioner<DoubleIndividual>
         List<Double> childChromosomes = new ArrayList<>();
 
         for (int i = 0; i < childSize; i++) {
-            childChromosomes.add((firstParentChromosomes.get(i) + secondParentChromosomes.get(i)) / 2);
+            childChromosomes.add((1 - alpha) * firstParentChromosomes.get(i) + alpha * secondParentChromosomes.get(i));
         }
         return new DoubleIndividual(childChromosomes);
     }

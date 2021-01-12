@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class GaussianReplaceDoubleMutator extends Mutator<DoubleIndividual> {
 
-    public GaussianReplaceDoubleMutator(double mutationProbability, int mutationRange) {
+    public GaussianReplaceDoubleMutator(double mutationProbability, double mutationRange) {
         super(mutationProbability, mutationRange);
     }
 

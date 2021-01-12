@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class GaussianDoubleMutator extends Mutator<DoubleIndividual> {
 
-    public GaussianDoubleMutator(double mutationProbability, int mutationRange) {
+    public GaussianDoubleMutator(double mutationProbability, double mutationRange) {
         super(mutationProbability, mutationRange);
     }
 
